@@ -1,7 +1,25 @@
 ﻿@page "/play"
 
+@inject NavigationManager navManager;
+@using Microsoft.AspNetCore.WebUtilities;
+@using ViewModels;
+
 <h3>Play</h3>
 
-@code {
+<span>@_player.Name</span>
 
+@code {
+    private PlayerForm _player = new PlayerForm();
+
+    protected override void OnInitialized()
+    {
+        var uri = navManager.ToAbsoluteUri(navManager.Uri);
+        var parsedQuery = QueryHelpers.ParseQuery(uri.Query);
+
+        string name = parsedQuery.GetValueOrDefault("name", "Player 1");
+        string color = parsedQuery.GetValueOrDefault("color", "#1DAC46");
+
+        _player.Name = name;
+        _player.Color = color;
+    }
 }
