@@ -1,5 +1,55 @@
 ﻿@page "/"
 
-<h1>Hello, world!</h1>
+@using ViewModels;
 
-Welcome to your new app.
+<h1>Connect Four</h1>
+
+<EditForm Model="@_person">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group row">
+        <label for="name" class="col-sm-1 col-form-label">Name: </label>
+        <div class="col-sm-2">
+            <InputText id="name" class="form-control" @bind-Value="_person.Name" />
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label for="color" class="col-sm-1 col-form-label">Color: </label>
+        <div class="col-sm-2 input-group">
+            <InputText id="color" class="form-control" readonly disabled 
+                       @bind-Value="_person.Color" style="@colorInputStyle" />
+            <div class="input-group-append" @onclick="HandleGenerateColor">
+                <div class="input-group-text">
+                    <span class="oi oi-reload" aria-hidden="true"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">New Game</button>
+</EditForm>
+
+@code {
+    private PlayerForm _person = new PlayerForm();
+
+    private string colorInputStyle = "";
+
+    protected override void OnInitialized()
+    {
+        HandleGenerateColor();
+    }
+
+    private void HandleGenerateColor()
+    {
+        _person.Color = GetRandomColor();
+        colorInputStyle = String.Format("background: {0}", _person.Color);
+    }
+
+    private string GetRandomColor()
+    {
+        var random = new Random();
+        return String.Format("#{0:X6}", random.Next(0x1000000));
+    }
+}
