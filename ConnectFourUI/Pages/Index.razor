@@ -6,14 +6,14 @@
 
 <h1>Connect Four</h1>
 
-<EditForm Model="@_person" OnValidSubmit="HandleNewGame">
+<EditForm Model="@_player" OnValidSubmit="HandleNewGame">
     <DataAnnotationsValidator />
     <ValidationSummary />
 
     <div class="form-group row">
         <label for="name" class="col-sm-1 col-form-label">Name: </label>
         <div class="col-sm-2">
-            <InputText id="name" class="form-control" @bind-Value="_person.Name" />
+            <InputText id="name" class="form-control" @bind-Value="_player.Name" />
         </div>
     </div>
 
@@ -21,7 +21,7 @@
         <label for="color" class="col-sm-1 col-form-label">Color: </label>
         <div class="col-sm-2 input-group">
             <InputText id="color" class="form-control" readonly disabled
-                       @bind-Value="_person.Color" style="@colorInputStyle" />
+                       @bind-Value="_player.Color" style="@colorInputStyle" />
             <div class="input-group-append" @onclick="HandleGenerateColor">
                 <div class="input-group-text">
                     <span class="oi oi-reload" aria-hidden="true"></span>
@@ -34,7 +34,7 @@
 </EditForm>
 
 @code {
-    private PlayerForm _person = new PlayerForm();
+    private PlayerForm _player = new PlayerForm();
 
     private string colorInputStyle = "";
 
@@ -45,8 +45,8 @@
 
     private void HandleGenerateColor()
     {
-        _person.Color = GetRandomColor();
-        colorInputStyle = String.Format("background: {0}", _person.Color);
+        _player.Color = GetRandomColor();
+        colorInputStyle = String.Format("background: {0}", _player.Color);
     }
 
     private string GetRandomColor()
@@ -58,7 +58,7 @@
     private void HandleNewGame()
     {
         var query = new Dictionary<string, string> {
-            { "name", this._person.Name }, { "color", this._person.Color } };
+            { "name", this._player.Name }, { "color", this._player.Color } };
 
         navManager.NavigateTo(QueryHelpers.AddQueryString("play", query));
     }
