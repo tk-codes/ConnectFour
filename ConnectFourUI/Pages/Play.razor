@@ -2,16 +2,36 @@
 
 @inject NavigationManager navManager;
 @using Microsoft.AspNetCore.WebUtilities;
+@using ConnectFourLogic;
 @using ViewModels;
 
 <h3>Play</h3>
 
-<span>@_player.Name</span>
+@if (_game == null)
+{
+    <span>Loading...</span>
+}
+else
+{
+    <span>@_game.CurrentPlayer.Name</span>
+}
 
 @code {
-    private PlayerForm _player = new PlayerForm();
+    private Game _game;
 
     protected override void OnInitialized()
+    {
+        // Currently, only easy level is supported for playing against computer.
+        // To support more levels, extend the form and logic.
+        var level = GameStrategyLevel.Easy;
+
+        var playerOne = CreateMainPlayerFromUri();
+        var playerTwo = CreateComputerPlayer();
+
+        _game = new Game(playerOne, playerTwo, level);
+    }
+
+    private Player CreateMainPlayerFromUri()
     {
         var uri = navManager.ToAbsoluteUri(navManager.Uri);
         var parsedQuery = QueryHelpers.ParseQuery(uri.Query);
@@ -19,7 +39,11 @@
         string name = parsedQuery.GetValueOrDefault("name", "Player 1");
         string color = parsedQuery.GetValueOrDefault("color", "#1DAC46");
 
-        _player.Name = name;
-        _player.Color = color;
+        return new Player(name, color);
+    }
+
+    private Player CreateComputerPlayer()
+    {
+        return new Player("Computer", "#FF0000");
     }
 }
