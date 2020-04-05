@@ -1,10 +1,12 @@
 ﻿@page "/"
 
 @using ViewModels;
+@using Microsoft.AspNetCore.WebUtilities;
+@inject NavigationManager navManager;
 
 <h1>Connect Four</h1>
 
-<EditForm Model="@_person">
+<EditForm Model="@_person" OnValidSubmit="HandleNewGame">
     <DataAnnotationsValidator />
     <ValidationSummary />
 
@@ -18,7 +20,7 @@
     <div class="form-group row">
         <label for="color" class="col-sm-1 col-form-label">Color: </label>
         <div class="col-sm-2 input-group">
-            <InputText id="color" class="form-control" readonly disabled 
+            <InputText id="color" class="form-control" readonly disabled
                        @bind-Value="_person.Color" style="@colorInputStyle" />
             <div class="input-group-append" @onclick="HandleGenerateColor">
                 <div class="input-group-text">
@@ -51,5 +53,13 @@
     {
         var random = new Random();
         return String.Format("#{0:X6}", random.Next(0x1000000));
+    }
+
+    private void HandleNewGame()
+    {
+        var query = new Dictionary<string, string> {
+            { "name", this._person.Name }, { "color", this._person.Color } };
+
+        navManager.NavigateTo(QueryHelpers.AddQueryString("play", query));
     }
 }
