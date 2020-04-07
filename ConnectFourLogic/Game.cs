@@ -13,6 +13,8 @@ namespace ConnectFourLogic
 
         private GameStrategyLevel level { get; }
 
+        public GameBoard Board { get; }
+
         public Game(Player playerOne, Player playerTwo, GameStrategyLevel level)
         {
             PlayerOne = playerOne;
@@ -20,6 +22,8 @@ namespace ConnectFourLogic
 
             this.level = level;
             CurrentPlayer = PlayerOne;
+
+            Board = new GameBoard();
         }
     }
 }

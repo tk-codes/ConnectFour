@@ -1,0 +1,17 @@
+﻿@using ConnectFourLogic;
+
+<div>
+    @for (int column = 0; column < Board.Cells.GetLength(0); column++)
+    {
+        for(int row = 0; row < Board.Cells.GetLength(1); row++)
+        {
+            <span>@column:@row - @Board.Cells[column, row]</span>
+        }
+        <br/>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public GameBoard Board { get; set; }
+}
