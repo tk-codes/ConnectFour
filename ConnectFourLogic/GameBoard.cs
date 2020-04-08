@@ -6,6 +6,6 @@ namespace ConnectFourLogic
 {
     public class GameBoard
     {
-        public int[,] Cells { get; } = new int[7, 6];
+        public int[,] Cells { get; } = new int[6, 7];
     }
 }

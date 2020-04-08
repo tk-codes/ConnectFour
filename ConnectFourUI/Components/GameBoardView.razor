@@ -1,14 +1,23 @@
 ﻿@using ConnectFourLogic;
 
-<div>
-    @for (int column = 0; column < Board.Cells.GetLength(0); column++)
-    {
-        for(int row = 0; row < Board.Cells.GetLength(1); row++)
-        {
-            <span>@column:@row - @Board.Cells[column, row]</span>
-        }
-        <br/>
-    }
+<div class="container">
+    <div class="row">
+        <div class="col-md-4 col-sm-12">
+            <table class="table table-bordered">
+                <tbody>
+                    @for (int column = 0; column < Board.Cells.GetLength(0); column++)
+                    {
+                        <tr>
+                            @for (int row = 0; row < Board.Cells.GetLength(1); row++)
+                            {
+                                <td>@column:@row - @Board.Cells[column, row]</td>
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 
 @code {
