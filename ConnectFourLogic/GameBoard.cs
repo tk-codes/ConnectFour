@@ -6,6 +6,6 @@ namespace ConnectFourLogic
 {
     public class GameBoard
     {
-        public Player[,] Cells { get; } = new Player[6, 7];
+        public Player[,] Cells { get; } = new Player[7, 6];
     }
 }

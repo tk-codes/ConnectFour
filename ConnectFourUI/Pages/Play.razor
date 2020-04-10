@@ -5,7 +5,7 @@
 @using ConnectFourLogic;
 @using ConnectFourUI.Components;
 
-<h3>Play</h3>
+<h3 id="play">Play</h3>
 
 @if (_game == null)
 {
@@ -15,7 +15,7 @@ else
 {
     <span>@_game.CurrentPlayer.Name</span>
 
-    <GameBoardView Board="@_game.Board"></GameBoardView>
+    <GameBoardView Game="@_game"></GameBoardView>
 }
 
 @code {

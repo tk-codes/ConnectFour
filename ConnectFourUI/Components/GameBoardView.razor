@@ -2,17 +2,18 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-md-4 col-sm-12">
-            <table class="table table-bordered">
+        <div class="col-sm-12">
+            <table class="table" id="my-table">
                 <tbody>
-                    @for (int column = 0; column < Board.Cells.GetLength(0); column++)
+                    @for (int row = 0; row < Game.GetRowLength(); row++)
                     {
                         <tr>
-                            @for (int row = 0; row < Board.Cells.GetLength(1); row++)
+                            @for (int column = 0; column < Game.GetColumnLength(); column++)
                             {
-                                <td>
-                                    <BoardCellView player="@Board.Cells[column, row]" />
-                                </td>
+                                var currentColumn = column;
+                                <BoardCellView color="@Game.GetDiscColorAtCell(column, row)"
+                                               OnClickCallback="() => HandleClick(currentColumn)"
+                                               OnMouseOverCallback="() => HandleMouseOver(currentColumn)" />
                             }
                         </tr>
                     }
@@ -24,5 +25,15 @@
 
 @code {
     [Parameter]
-    public GameBoard Board { get; set; }
+    public IGame Game { get; set; }
+
+    private void HandleClick(int column)
+    {
+        Game.DropDisc(column);
+    }
+
+    private void HandleMouseOver(int column)
+    {
+
+    }
 }

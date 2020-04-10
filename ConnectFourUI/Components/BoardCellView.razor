@@ -1,13 +1,19 @@
 ﻿@using ConnectFourLogic;
 
-<div class="board-cell">
-    @if(player != null)
+<td class="board-cell" @onclick="OnClickCallback" @onmouseover="OnMouseOverCallback">
+    @if (Color != null)
     {
-        <span style="color: @player.Color">X</span>
+        <span style="color: @Color">X</span>
     }
-</div>
+</td>
 
 @code {
     [Parameter]
-    public Player player { get; set; }
+    public string Color { get; set; }
+
+    [Parameter]
+    public EventCallback<MouseEventArgs> OnClickCallback { get; set; }
+
+    [Parameter]
+    public EventCallback<MouseEventArgs> OnMouseOverCallback { get; set; }
 }
