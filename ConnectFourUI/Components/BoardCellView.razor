@@ -1,6 +1,6 @@
 ﻿@using ConnectFourLogic;
 
-<td class="board-cell" @onclick="OnClickCallback" @onmouseover="OnMouseOverCallback">
+<td class="board-cell @(IsHighlighted ? "highlight" : "")" @onclick="OnClickCallback" @onmouseover="OnMouseOverCallback">
     <div>
         @if (Color != null)
         {
@@ -18,4 +18,7 @@
 
     [Parameter]
     public EventCallback<MouseEventArgs> OnMouseOverCallback { get; set; }
+
+    [Parameter]
+    public bool IsHighlighted { get; set; }
 }

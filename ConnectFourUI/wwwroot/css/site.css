@@ -190,3 +190,7 @@ app {
     width: 50px;
     height: 50px;
 }
+
+td.highlight {
+    background: #0094ee;
+}
