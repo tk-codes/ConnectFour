@@ -1,0 +1,13 @@
+﻿@using ConnectFourLogic;
+
+<div class="board-cell">
+    @if(player != null)
+    {
+        <span style="color: @player.Color">X</span>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public Player player { get; set; }
+}

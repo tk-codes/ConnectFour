@@ -181,3 +181,10 @@ app {
         display: block;
     }
 }
+
+/* Board Cell */
+.board-cell {
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+}

@@ -10,7 +10,9 @@
                         <tr>
                             @for (int row = 0; row < Board.Cells.GetLength(1); row++)
                             {
-                                <td>@column:@row - @Board.Cells[column, row]</td>
+                                <td>
+                                    <BoardCellView player="@Board.Cells[column, row]" />
+                                </td>
                             }
                         </tr>
                     }
