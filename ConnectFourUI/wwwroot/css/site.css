@@ -183,10 +183,10 @@ app {
 }
 
 /* Board Cell */
-.board-cell {
-    display: inline-block;
+.board-cell div {
+    margin: 0;
     cursor: pointer;
+    display: inline-block;
     width: 50px;
     height: 50px;
-    border: 1px solid #dee2e6;
 }

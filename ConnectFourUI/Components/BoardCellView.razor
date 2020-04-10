@@ -1,10 +1,12 @@
 ﻿@using ConnectFourLogic;
 
 <td class="board-cell" @onclick="OnClickCallback" @onmouseover="OnMouseOverCallback">
-    @if (Color != null)
-    {
-        <span style="color: @Color">X</span>
-    }
+    <div>
+        @if (Color != null)
+        {
+            <span style="color: @Color">X</span>
+        }
+    </div>
 </td>
 
 @code {
