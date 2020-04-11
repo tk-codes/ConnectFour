@@ -1,6 +1,7 @@
 ﻿@page "/"
 
 @using ViewModels;
+@using ConnectFourLogic.Helpers;
 @using Microsoft.AspNetCore.WebUtilities;
 @inject NavigationManager navManager;
 
@@ -45,14 +46,8 @@
 
     private void HandleGenerateColor()
     {
-        _player.Color = GetRandomColor();
+        _player.Color = ColorHelper.GetRandomColor();
         colorInputStyle = String.Format("background: {0}", _player.Color);
-    }
-
-    private string GetRandomColor()
-    {
-        var random = new Random();
-        return String.Format("#{0:X6}", random.Next(0x1000000));
     }
 
     private void HandleNewGame()

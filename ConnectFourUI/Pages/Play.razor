@@ -3,6 +3,7 @@
 @inject NavigationManager navManager;
 @using Microsoft.AspNetCore.WebUtilities;
 @using ConnectFourLogic;
+@using ConnectFourLogic.Helpers;
 @using ConnectFourUI.Components;
 
 <h3 id="play">Play</h3>
@@ -28,7 +29,7 @@ else
         var level = GameStrategyLevel.Easy;
 
         var playerOne = CreateMainPlayerFromUri();
-        var playerTwo = CreateComputerPlayer();
+        var playerTwo = CreateComputerPlayer(playerOne.Color);
 
         _game = new Game(playerOne, playerTwo, level);
     }
@@ -44,8 +45,15 @@ else
         return new Player(name, color);
     }
 
-    private Player CreateComputerPlayer()
+    private Player CreateComputerPlayer(string mainPlayerColor)
     {
-        return new Player("Computer", "#FF0000");
+        string color = ColorHelper.GetRandomColor();
+
+        while(color == mainPlayerColor)
+        {
+            color = ColorHelper.GetRandomColor();
+        }
+
+        return new Player("Computer", color);
     }
 }

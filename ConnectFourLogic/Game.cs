@@ -34,6 +34,12 @@ namespace ConnectFourLogic
         public void DropDisc(int column)
         {
             board.DropDisc(column, CurrentPlayer);
+            SwitchPlayer();
+        }
+
+        private void SwitchPlayer()
+        {
+            CurrentPlayer = CurrentPlayer == PlayerTwo ? PlayerOne : PlayerTwo;
         }
     }
 }
