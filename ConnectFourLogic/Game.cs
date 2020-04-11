@@ -13,7 +13,7 @@ namespace ConnectFourLogic
 
         private GameStrategyLevel level { get; }
 
-        private GameBoard board { get; }
+        private IGameBoard board { get; }
 
         public Game(Player playerOne, Player playerTwo, GameStrategyLevel level)
         {
@@ -26,25 +26,14 @@ namespace ConnectFourLogic
             board = new GameBoard();
         }
 
-        public int GetColumnLength()
+        public IGameBoard GetBoard()
         {
-            return board.Cells.GetLength(0);
-        }
-
-        public int GetRowLength()
-        {
-            return board.Cells.GetLength(1);
-        }
-
-        public string GetDiscColorAtCell(int column, int row)
-        {
-            var player = board.Cells[column, row];
-            return player?.Color;
+            return board;
         }
 
         public void DropDisc(int column)
         {
-            board.Cells[column, 0] = CurrentPlayer;
+            board.DropDisc(column, CurrentPlayer);
         }
     }
 }

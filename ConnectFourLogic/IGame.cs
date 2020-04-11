@@ -2,11 +2,7 @@
 {
     public interface IGame
     {
-        int GetColumnLength();
-
-        int GetRowLength();
-
-        string GetDiscColorAtCell(int column, int row);
+        IGameBoard GetBoard();
 
         void DropDisc(int column);
     }

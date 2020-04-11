@@ -5,13 +5,13 @@
         <div>
             <table class="table table-bordered" id="my-table" @onmouseout="() => highlightedColumn = -1">
                 <tbody>
-                    @for (int row = 0; row < Game.GetRowLength(); row++)
+                    @for (int row = 0; row < Game.GetBoard().GetRowLength(); row++)
                     {
                         <tr>
-                            @for (int column = 0; column < Game.GetColumnLength(); column++)
+                            @for (int column = 0; column < Game.GetBoard().GetColumnLength(); column++)
                             {
                                 var currentColumn = column;
-                                <BoardCellView color="@Game.GetDiscColorAtCell(column, row)"
+                                <BoardCellView color="@Game.GetBoard().GetDiscColorAtCell(column, row)"
                                                OnClickCallback="() => HandleClick(currentColumn)"
                                                OnMouseOverCallback="() => HandleMouseOver(currentColumn)"
                                                IsHighlighted="@(highlightedColumn == currentColumn)"/>
