@@ -24,6 +24,12 @@ namespace ConnectFourLogic
             return player?.Color;
         }
 
+        public bool IsFull(int column)
+        {
+            int nextRow = GetNextAvailableRow(column);
+            return nextRow < 0;
+        }
+
         public void DropDisc(int column, Player player)
         {
             int nextRow = GetNextAvailableRow(column);

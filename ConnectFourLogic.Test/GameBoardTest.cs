@@ -9,12 +9,14 @@ namespace ConnectFourLogic.Test
     public class GameBoardTest
     {
         private readonly IGameBoard board;
-        private readonly Player player;
+        private readonly Player playerOne;
+        private readonly Player playerTwo;
 
         public GameBoardTest()
         {
             board = new GameBoard();
-            player = TestPlayerFactory.CreatePlayerOne();
+            playerOne = TestPlayerFactory.CreatePlayerOne();
+            playerTwo = TestPlayerFactory.CreatePlayerTwo();
         }
 
         [Fact]
@@ -30,20 +32,42 @@ namespace ConnectFourLogic.Test
         }
 
         [Fact]
+        public void ShouldNotBeFull()
+        {
+            board.IsFull(2).Should().BeFalse();
+        }
+
+        [Fact]
         public void ShouldDropDiscInTheLastRow()
         {
-            board.DropDisc(2, player);
+            board.DropDisc(2, playerOne);
 
-            board.GetDiscColorAtCell(2, 5).Should().Be(player.Color);
+            board.GetDiscColorAtCell(2, 5).Should().Be(playerOne.Color);
         }
 
         [Fact]
         public void ShouldDropDiscInTheSecondLastRow()
         {
-            board.DropDisc(2, player);
-            board.DropDisc(2, player);
+            board.DropDisc(2, playerOne);
+            board.DropDisc(2, playerOne);
 
-            board.GetDiscColorAtCell(2, 4).Should().Be(player.Color);
+            board.GetDiscColorAtCell(2, 4).Should().Be(playerOne.Color);
+        }
+
+        [Fact]
+        public void ShouldNotDropDiscWhenFull()
+        {
+            board.DropDisc(2, playerOne);
+            board.DropDisc(2, playerOne);
+            board.DropDisc(2, playerOne);
+            board.DropDisc(2, playerOne);
+            board.DropDisc(2, playerOne);
+            board.DropDisc(2, playerOne);
+
+            board.DropDisc(2, playerTwo);
+
+            board.IsFull(2).Should().BeTrue();
+            board.GetDiscColorAtCell(2, 0).Should().Be(playerOne.Color);
         }
     }
 }
