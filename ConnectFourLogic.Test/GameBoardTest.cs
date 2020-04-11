@@ -34,7 +34,16 @@ namespace ConnectFourLogic.Test
         {
             board.DropDisc(2, player);
 
-            board.GetDiscColorAtCell(2, 6).Should().Be(player.Color);
+            board.GetDiscColorAtCell(2, 5).Should().Be(player.Color);
+        }
+
+        [Fact]
+        public void ShouldDropDiscInTheSecondLastRow()
+        {
+            board.DropDisc(2, player);
+            board.DropDisc(2, player);
+
+            board.GetDiscColorAtCell(2, 4).Should().Be(player.Color);
         }
     }
 }
