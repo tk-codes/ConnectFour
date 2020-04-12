@@ -1,4 +1,4 @@
-﻿namespace ConnectFourLogic
+﻿namespace ConnectFourLogic.Board
 {
     public interface IGameBoard
     {
