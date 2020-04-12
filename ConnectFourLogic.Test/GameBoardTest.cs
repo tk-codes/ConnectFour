@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Xunit;
 
@@ -8,66 +9,66 @@ namespace ConnectFourLogic.Test
 {
     public class GameBoardTest
     {
-        private readonly IGameBoard board;
-        private readonly Player playerOne;
-        private readonly Player playerTwo;
+        private readonly IGameBoard _board;
+        private readonly Player _playerOne;
+        private readonly Player _playerTwo;
 
         public GameBoardTest()
         {
-            board = new GameBoard();
-            playerOne = TestPlayerFactory.CreatePlayerOne();
-            playerTwo = TestPlayerFactory.CreatePlayerTwo();
+            _board = new GameBoard();
+            _playerOne = TestPlayerFactory.CreatePlayerOne();
+            _playerTwo = TestPlayerFactory.CreatePlayerTwo();
         }
 
         [Fact]
         public void ShouldGetColumnLength()
         {
-            board.GetColumnLength().Should().Be(7);
+            _board.GetColumnLength().Should().Be(7);
         }
 
         [Fact]
         public void ShouldGetRowLength()
         {
-            board.GetRowLength().Should().Be(6);
+            _board.GetRowLength().Should().Be(6);
         }
 
         [Fact]
         public void ShouldNotBeFull()
         {
-            board.IsFull(2).Should().BeFalse();
+            _board.IsFull(2).Should().BeFalse();
         }
 
         [Fact]
         public void ShouldDropDiscInTheLastRow()
         {
-            board.DropDisc(2, playerOne);
+            _board.DropDisc(2, _playerOne);
 
-            board.GetDiscColorAtCell(2, 5).Should().Be(playerOne.Color);
+            _board.GetDiscColorAtCell(2, 5).Should().Be(_playerOne.Color);
         }
 
         [Fact]
         public void ShouldDropDiscInTheSecondLastRow()
         {
-            board.DropDisc(2, playerOne);
-            board.DropDisc(2, playerOne);
+            _board.DropDisc(2, _playerOne);
+            _board.DropDisc(2, _playerOne);
 
-            board.GetDiscColorAtCell(2, 4).Should().Be(playerOne.Color);
+            _board.GetDiscColorAtCell(2, 4).Should().Be(_playerOne.Color);
         }
 
         [Fact]
         public void ShouldNotDropDiscWhenFull()
         {
-            board.DropDisc(2, playerOne);
-            board.DropDisc(2, playerOne);
-            board.DropDisc(2, playerOne);
-            board.DropDisc(2, playerOne);
-            board.DropDisc(2, playerOne);
-            board.DropDisc(2, playerOne);
+            _board.DropDisc(2, _playerOne);
+            _board.DropDisc(2, _playerOne);
+            _board.DropDisc(2, _playerOne);
+            _board.DropDisc(2, _playerOne);
+            _board.DropDisc(2, _playerOne);
+            _board.DropDisc(2, _playerOne);
 
-            board.DropDisc(2, playerTwo);
+            _board.DropDisc(2, _playerTwo);
 
-            board.IsFull(2).Should().BeTrue();
-            board.GetDiscColorAtCell(2, 0).Should().Be(playerOne.Color);
+            _board.IsFull(2).Should().BeTrue();
+            _board.GetDiscColorAtCell(2, 0).Should().Be(_playerOne.Color);
         }
 
         [Theory]
@@ -77,11 +78,11 @@ namespace ConnectFourLogic.Test
         [InlineData(1, 2, 3, 0)]
         public void CanWinHorizontally(int first, int second, int third, int columnToDrop)
         {
-            board.DropDisc(first, playerOne);
-            board.DropDisc(second, playerOne);
-            board.DropDisc(third, playerOne);
+            _board.DropDisc(first, _playerOne);
+            _board.DropDisc(second, _playerOne);
+            _board.DropDisc(third, _playerOne);
 
-            var canWin = board.CanPlayerWin(playerOne, columnToDrop);
+            var canWin = _board.CanPlayerWin(_playerOne, columnToDrop);
 
             canWin.Should().BeTrue();
         }
@@ -96,13 +97,13 @@ namespace ConnectFourLogic.Test
         {
             if(opponent.HasValue)
             {
-                board.DropDisc(opponent.Value, playerTwo);
+                _board.DropDisc(opponent.Value, _playerTwo);
             }
             
-            board.DropDisc(first, playerOne);
-            board.DropDisc(second, playerOne);
+            _board.DropDisc(first, _playerOne);
+            _board.DropDisc(second, _playerOne);
 
-            var canWin = board.CanPlayerWin(playerOne, third);
+            var canWin = _board.CanPlayerWin(_playerOne, third);
 
             canWin.Should().BeFalse();
         }
@@ -112,11 +113,11 @@ namespace ConnectFourLogic.Test
         [InlineData(1)]
         public void CanWinVertically(int column)
         {
-            board.DropDisc(column, playerOne);
-            board.DropDisc(column, playerOne);
-            board.DropDisc(column, playerOne);
+            _board.DropDisc(column, _playerOne);
+            _board.DropDisc(column, _playerOne);
+            _board.DropDisc(column, _playerOne);
 
-            var canWin = board.CanPlayerWin(playerOne, column);
+            var canWin = _board.CanPlayerWin(_playerOne, column);
 
             canWin.Should().BeTrue();
         }
@@ -132,12 +133,44 @@ namespace ConnectFourLogic.Test
 
             for (int i = 0; i < totalDroppedDiscs; i++)
             {
-                board.DropDisc(column, i == opponent ? playerTwo : playerOne);
+                _board.DropDisc(column, i == opponent ? _playerTwo : _playerOne);
             }
 
-            var canWin = board.CanPlayerWin(playerOne, column);
+            var canWin = _board.CanPlayerWin(_playerOne, column);
 
             canWin.Should().BeFalse();
+        }
+
+        [Theory]
+        [InlineData(0, 1, 2, 3)]
+        [InlineData(1, 2, 3, 4)]
+        [InlineData(1, 2, 4, 3)]
+        [InlineData(1, 3, 4, 2)]
+        [InlineData(2, 3, 4, 1)]
+        public void CanWinPositiveDiagonally(int first, int second, int third, int winningColumn)
+        {
+            FillInColumn(first, first, _playerTwo);
+            _board.DropDisc(first, _playerOne);
+
+            FillInColumn(second, second, _playerTwo);
+            _board.DropDisc(second, _playerOne);
+
+            FillInColumn(third, third, _playerTwo);
+            _board.DropDisc(third, _playerOne);
+
+            FillInColumn(winningColumn, winningColumn, _playerTwo);
+
+            var canWin = _board.CanPlayerWin(_playerOne, winningColumn);
+
+            canWin.Should().BeTrue();
+        }
+
+        private void FillInColumn(int column, int totalRows, Player player)
+        {
+            foreach(int unused in Enumerable.Range(0, totalRows))
+            {
+                _board.DropDisc(column, player);
+            }
         }
     }
 }
