@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace ConnectFourLogic
+namespace ConnectFourLogic.Board
 {
     public class GameBoard : IGameBoard
     {
@@ -10,18 +8,6 @@ namespace ConnectFourLogic
         private readonly int _totalDiscsInRowToWin = 4;
 
         public static int InvalidRowColumn = -1;
-
-        private readonly Func<BoardCell, BoardCell> _nextHorizontalCellFunc =
-            currentCell => new BoardCell(currentCell.Column + 1, currentCell.Row);
-
-        private readonly Func<BoardCell, BoardCell> _nextVerticalCellFunc =
-            currentCell => new BoardCell(currentCell.Column, currentCell.Row + 1);
-
-        private readonly Func<BoardCell, BoardCell> _nextPositiveDiagonalCellFunc =
-            currentCell => new BoardCell(currentCell.Column + 1, currentCell.Row - 1);
-
-        private readonly Func<BoardCell, BoardCell> _nextNegativeDiagonalCellFunc =
-            currentCell => new BoardCell(currentCell.Column + 1, currentCell.Row + 1);
 
         public int GetColumnLength()
         {
@@ -72,7 +58,7 @@ namespace ConnectFourLogic
             for (int startColumn = currentCell.Column - 3; startColumn <= currentCell.Column; startColumn++)
             {
                 var startCell = new BoardCell(startColumn, currentCell.Row);
-                var canConnect = CanConnectFour(player, currentCell, startCell, _nextHorizontalCellFunc);
+                var canConnect = CanConnectFour(player, currentCell, startCell, BoardNavigationHelper.GetNextCellOnRight);
 
                 if (canConnect)
                 {
@@ -85,7 +71,7 @@ namespace ConnectFourLogic
 
         private bool CheckVertically(Player player, BoardCell currentCell)
         {
-            var canConnect = CanConnectFour(player, currentCell, currentCell, _nextVerticalCellFunc);
+            var canConnect = CanConnectFour(player, currentCell, currentCell, BoardNavigationHelper.GetNextCellBelow);
 
             return canConnect;
         }
@@ -95,7 +81,7 @@ namespace ConnectFourLogic
             for (int startDistance = 3; startDistance >= 0; startDistance--)
             {
                 var startCell = new BoardCell(currentCell.Column - startDistance, currentCell.Row + startDistance);
-                var canConnect = CanConnectFour(player, currentCell, startCell, _nextPositiveDiagonalCellFunc);
+                var canConnect = CanConnectFour(player, currentCell, startCell, BoardNavigationHelper.GetNextCellOnRightCornerAbove);
 
                 if (canConnect)
                 {
