@@ -14,6 +14,9 @@ namespace ConnectFourLogic
         private readonly Func<BoardCell, BoardCell> _nextHorizontalCellFunc =
             currentCell => new BoardCell(currentCell.Column + 1, currentCell.Row);
 
+        private readonly Func<BoardCell, BoardCell> _nextVerticalCellFunc =
+            currentCell => new BoardCell(currentCell.Column, currentCell.Row + 1);
+
         public int GetColumnLength()
         {
             return _cells.GetLength(0);
@@ -52,7 +55,8 @@ namespace ConnectFourLogic
         {
             int nextRow = GetNextAvailableRow(column);
             var currentCell = new BoardCell(column, nextRow);
-            return CheckHorizontally(player, currentCell, false);
+            return CheckHorizontally(player, currentCell, false)
+                || CheckVertically(player, currentCell, false);
         }
 
         private bool CheckHorizontally(Player player, BoardCell currentCell, bool isAlreadyPlaced = true)
@@ -69,6 +73,13 @@ namespace ConnectFourLogic
             }
 
             return false;
+        }
+
+        private bool CheckVertically(Player player, BoardCell currentCell, bool isAlreadyPlaced = true)
+        {
+            var canConnect = CanConnectFour(player, currentCell, _nextVerticalCellFunc, isAlreadyPlaced ? null : currentCell);
+
+            return canConnect;
         }
 
         private bool IsValidCell(int column, int row)

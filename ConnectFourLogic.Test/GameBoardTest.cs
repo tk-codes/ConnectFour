@@ -106,5 +106,38 @@ namespace ConnectFourLogic.Test
 
             canWin.Should().BeFalse();
         }
+
+        [Theory]
+        [InlineData(0)]
+        [InlineData(1)]
+        public void CanWinVertically(int column)
+        {
+            board.DropDisc(column, playerOne);
+            board.DropDisc(column, playerOne);
+            board.DropDisc(column, playerOne);
+
+            var canWin = board.CanPlayerWin(playerOne, column);
+
+            canWin.Should().BeTrue();
+        }
+
+        [Theory]
+        [InlineData(3, 0)]
+        [InlineData(3, 1)]
+        [InlineData(3, 2)]
+        [InlineData(2, null)]
+        public void CanNotWinVertically(int totalDroppedDiscs, int? opponent)
+        {
+            int column = 0;
+
+            for (int i = 0; i < totalDroppedDiscs; i++)
+            {
+                board.DropDisc(column, i == opponent ? playerTwo : playerOne);
+            }
+
+            var canWin = board.CanPlayerWin(playerOne, column);
+
+            canWin.Should().BeFalse();
+        }
     }
 }
