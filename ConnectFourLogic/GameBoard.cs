@@ -17,6 +17,12 @@ namespace ConnectFourLogic
         private readonly Func<BoardCell, BoardCell> _nextVerticalCellFunc =
             currentCell => new BoardCell(currentCell.Column, currentCell.Row + 1);
 
+        private readonly Func<BoardCell, BoardCell> _nextPositiveDiagonalCellFunc =
+            currentCell => new BoardCell(currentCell.Column + 1, currentCell.Row - 1);
+
+        private readonly Func<BoardCell, BoardCell> _nextNegativeDiagonalCellFunc =
+            currentCell => new BoardCell(currentCell.Column + 1, currentCell.Row + 1);
+
         public int GetColumnLength()
         {
             return _cells.GetLength(0);
@@ -55,16 +61,18 @@ namespace ConnectFourLogic
         {
             int nextRow = GetNextAvailableRow(column);
             var currentCell = new BoardCell(column, nextRow);
-            return CheckHorizontally(player, currentCell, false)
-                || CheckVertically(player, currentCell, false);
+
+            return CheckHorizontally(player, currentCell)
+                || CheckVertically(player, currentCell)
+                || CheckPositiveDiagonal(player, currentCell);
         }
 
-        private bool CheckHorizontally(Player player, BoardCell currentCell, bool isAlreadyPlaced = true)
+        private bool CheckHorizontally(Player player, BoardCell currentCell)
         {
             for (int startColumn = currentCell.Column - 3; startColumn <= currentCell.Column; startColumn++)
             {
                 var startCell = new BoardCell(startColumn, currentCell.Row);
-                var canConnect = CanConnectFour(player, startCell, _nextHorizontalCellFunc, isAlreadyPlaced ? null : currentCell);
+                var canConnect = CanConnectFour(player, currentCell, startCell, _nextHorizontalCellFunc);
 
                 if (canConnect)
                 {
@@ -75,23 +83,34 @@ namespace ConnectFourLogic
             return false;
         }
 
-        private bool CheckVertically(Player player, BoardCell currentCell, bool isAlreadyPlaced = true)
+        private bool CheckVertically(Player player, BoardCell currentCell)
         {
-            var canConnect = CanConnectFour(player, currentCell, _nextVerticalCellFunc, isAlreadyPlaced ? null : currentCell);
+            var canConnect = CanConnectFour(player, currentCell, currentCell, _nextVerticalCellFunc);
 
             return canConnect;
         }
 
-        private bool IsValidCell(int column, int row)
+        private bool CheckPositiveDiagonal(Player player, BoardCell currentCell)
         {
-            return column >= 0 && column < GetColumnLength()
-                               && row >= 0 && row < GetRowLength();
+            for (int startDistance = 3; startDistance >= 0; startDistance--)
+            {
+                var startCell = new BoardCell(currentCell.Column - startDistance, currentCell.Row + startDistance);
+                var canConnect = CanConnectFour(player, currentCell, startCell, _nextPositiveDiagonalCellFunc);
+
+                if (canConnect)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
-        private bool CanConnectFour(Player player, BoardCell startCell, Func<BoardCell, BoardCell> getNextCellFunc,
-            BoardCell? cellToBePlayedNext)
+        private bool CanConnectFour(Player player, BoardCell currentCell, BoardCell startCell, Func<BoardCell, BoardCell> getNextCellFunc)
         {
             BoardCell cellToCheck = startCell;
+            var cellToBePlayedNext = isAlreadyPlayed(currentCell) ? null : currentCell;
+
             int count = 0;
 
             for (int i = 0; i < _totalDiscsInRowToWin; i++)
@@ -101,7 +120,7 @@ namespace ConnectFourLogic
                     return false;
                 }
 
-                if (!cellToCheck.Equals(cellToBePlayedNext) &&
+                if (!cellToCheck.Equals(cellToBePlayedNext) && 
                     GetDiscColorAtCell(cellToCheck.Column, cellToCheck.Row) != player.Color)
                 {
                     return false;
@@ -112,6 +131,22 @@ namespace ConnectFourLogic
             }
 
             return count == _totalDiscsInRowToWin;
+        }
+
+        private bool isAlreadyPlayed(BoardCell cell)
+        {
+            return IsValidCell(cell) && _cells[cell.Column, cell.Row] != null;
+        }
+
+        private bool IsValidCell(BoardCell cell)
+        {
+            return IsValidCell(cell.Column, cell.Row);
+        }
+
+        private bool IsValidCell(int column, int row)
+        {
+            return column >= 0 && column < GetColumnLength()
+                               && row >= 0 && row < GetRowLength();
         }
 
         private int GetNextAvailableRow(int column)
