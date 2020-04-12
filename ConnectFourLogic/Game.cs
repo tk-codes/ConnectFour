@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ConnectFourLogic.Strategies;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -11,7 +12,7 @@ namespace ConnectFourLogic
         public Player PlayerOne { get; }
         public Player PlayerTwo { get; }
 
-        private GameStrategyLevel level { get; }
+        private IGameStrategy strategy;
 
         private IGameBoard board { get; }
 
@@ -19,11 +20,10 @@ namespace ConnectFourLogic
         {
             PlayerOne = playerOne;
             PlayerTwo = playerTwo;
-
-            this.level = level;
             CurrentPlayer = PlayerOne;
 
             board = new GameBoard();
+            strategy = GameStrategyFactory.Create(level);
         }
 
         public IGameBoard GetBoard()
