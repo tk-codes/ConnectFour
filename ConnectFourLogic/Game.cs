@@ -33,8 +33,13 @@ namespace ConnectFourLogic
 
         public void DropDisc(int column)
         {
-            board.DropDisc(column, CurrentPlayer);
+            int droppedRow = board.DropDisc(column, CurrentPlayer);
+
+            // TODO: check if the current player has won
             SwitchPlayer();
+            
+            (int playedColumn, int playedRow) = strategy.Play(CurrentPlayer);
+            // TODO: check if the switched player has won
         }
 
         private void SwitchPlayer()

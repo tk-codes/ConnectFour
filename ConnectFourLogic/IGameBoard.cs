@@ -8,8 +8,10 @@
 
         bool IsFull(int column);
 
-        void DropDisc(int column, Player player);
+        int DropDisc(int column, Player player);
 
         string GetDiscColorAtCell(int column, int row);
+
+        bool CanPlayerWin(Player player, int column);
     }
 }
