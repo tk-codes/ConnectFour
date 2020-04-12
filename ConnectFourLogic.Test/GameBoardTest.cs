@@ -86,14 +86,23 @@ namespace ConnectFourLogic.Test
             canWin.Should().BeTrue();
         }
 
-        [Fact]
-        public void CanNotWinHorizontally()
+        [Theory]
+        [InlineData(0, 1, 2, 3)]
+        [InlineData(0, 1, 3, 2)]
+        [InlineData(0, 2, 3, 1)]
+        [InlineData(1, 2, 3, 0)]
+        [InlineData(1, 2, 3, null)]
+        public void CanNotWinHorizontally(int first, int second, int third, int? opponent)
         {
-            board.DropDisc(0, playerOne);
-            board.DropDisc(1, playerOne);
-            board.DropDisc(2, playerTwo);
+            if(opponent.HasValue)
+            {
+                board.DropDisc(opponent.Value, playerTwo);
+            }
+            
+            board.DropDisc(first, playerOne);
+            board.DropDisc(second, playerOne);
 
-            var canWin = board.CanPlayerWin(playerOne, 3);
+            var canWin = board.CanPlayerWin(playerOne, third);
 
             canWin.Should().BeFalse();
         }
