@@ -69,5 +69,33 @@ namespace ConnectFourLogic.Test
             board.IsFull(2).Should().BeTrue();
             board.GetDiscColorAtCell(2, 0).Should().Be(playerOne.Color);
         }
+
+        [Theory]
+        [InlineData(0, 1, 2, 3)]
+        [InlineData(0, 1, 3, 2)]
+        [InlineData(0, 2, 3, 1)]
+        [InlineData(1, 2, 3, 0)]
+        public void CanWinHorizontally(int first, int second, int third, int columnToDrop)
+        {
+            board.DropDisc(first, playerOne);
+            board.DropDisc(second, playerOne);
+            board.DropDisc(third, playerOne);
+
+            var canWin = board.CanPlayerWin(playerOne, columnToDrop);
+
+            canWin.Should().BeTrue();
+        }
+
+        [Fact]
+        public void CanNotWinHorizontally()
+        {
+            board.DropDisc(0, playerOne);
+            board.DropDisc(1, playerOne);
+            board.DropDisc(2, playerTwo);
+
+            var canWin = board.CanPlayerWin(playerOne, 3);
+
+            canWin.Should().BeFalse();
+        }
     }
 }
