@@ -13,9 +13,9 @@ namespace ConnectFourLogic
         public Player PlayerOne { get; }
         public Player PlayerTwo { get; }
 
-        private IGameStrategy strategy;
+        private readonly IGameStrategy _strategy;
 
-        private IGameBoard board { get; }
+        private readonly IGameBoard _board;
 
         public Game(Player playerOne, Player playerTwo, GameStrategyLevel level)
         {
@@ -23,23 +23,23 @@ namespace ConnectFourLogic
             PlayerTwo = playerTwo;
             CurrentPlayer = PlayerOne;
 
-            board = new GameBoard();
-            strategy = GameStrategyFactory.Create(level, board);
+            _board = new GameBoard();
+            _strategy = GameStrategyFactory.Create(level, _board);
         }
 
         public IGameBoard GetBoard()
         {
-            return board;
+            return _board;
         }
 
         public void DropDisc(int column)
         {
-            int droppedRow = board.DropDisc(column, CurrentPlayer);
+            int droppedRow = _board.DropDisc(column, CurrentPlayer);
 
             // TODO: check if the current player has won
             SwitchPlayer();
             
-            (int playedColumn, int playedRow) = strategy.Play(CurrentPlayer, GetOpponent());
+            (int playedColumn, int playedRow) = _strategy.Play(CurrentPlayer, GetOpponent());
             // TODO: check if the switched player has won
             SwitchPlayer();
         }
