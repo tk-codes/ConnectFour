@@ -11,6 +11,8 @@ namespace ConnectFourLogic.Board
 
         IEnumerable<int> ColumnIndices();
 
+        IEnumerable<int> RowIndices();
+
         bool IsFull();
 
         bool IsColumnFull(int column);
