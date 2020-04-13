@@ -8,9 +8,9 @@ namespace ConnectFourLogic.Board
     public class GameBoard : IGameBoard
     {
         private readonly Player[,] _cells = new Player[7, 6];
-        private readonly int _totalDiscsInRowToWin = 4;
+        private const int TotalDiscsInRowToWin = 4;
 
-        public static int InvalidRowColumn = -1;
+        public static readonly int InvalidRowColumn = -1;
 
         public int GetColumnLength()
         {
@@ -39,14 +39,12 @@ namespace ConnectFourLogic.Board
         public bool IsFull()
         {
             return ColumnIndices()
-                .Select(column => _cells[column, 0] != null)
-                .All(hasPlayer => hasPlayer);
+                .All(column => _cells[column, 0] != null);
         }
 
         public bool IsColumnFull(int column)
         {
-            int nextRow = GetNextAvailableRow(column);
-            return nextRow == InvalidRowColumn;
+            return _cells[column, 0] != null;
         }
 
         public int DropDisc(int column, Player player)
@@ -162,7 +160,7 @@ namespace ConnectFourLogic.Board
 
             int count = 0;
 
-            for (int i = 0; i < _totalDiscsInRowToWin; i++)
+            for (int i = 0; i < TotalDiscsInRowToWin; i++)
             {
                 if (!IsValidCell(cellToCheck.Column, cellToCheck.Row))
                 {
@@ -179,7 +177,7 @@ namespace ConnectFourLogic.Board
                 cellToCheck = getNextCellFunc(cellToCheck);
             }
 
-            return count == _totalDiscsInRowToWin;
+            return count == TotalDiscsInRowToWin;
         }
 
         private bool IsAlreadyPlayed(BoardCell cell)
