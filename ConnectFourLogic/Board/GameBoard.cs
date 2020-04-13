@@ -38,7 +38,7 @@ namespace ConnectFourLogic.Board
 
         public bool IsFull()
         {
-            return Enumerable.Range(0, GetColumnLength())
+            return ColumnIndices()
                 .Select(column => _cells[column, 0] != null)
                 .All(hasPlayer => hasPlayer);
         }
@@ -63,7 +63,7 @@ namespace ConnectFourLogic.Board
 
         public int GetColumnToWin(Player player)
         {
-            for (var column = 0; column < GetColumnLength(); column++)
+            foreach (var column in ColumnIndices())
             {
                 if (CanPlayerWin(player, column))
                 {
@@ -79,10 +79,25 @@ namespace ConnectFourLogic.Board
             int nextRow = GetNextAvailableRow(column);
             var currentCell = new BoardCell(column, nextRow);
 
-            return CheckHorizontally(player, currentCell)
-                || CheckVertically(player, currentCell)
-                || CheckPositiveDiagonal(player, currentCell)
-                || CheckNegativeDiagonal(player, currentCell);
+            return CheckWinningPossibility(player, currentCell);
+        }
+
+        public bool HasPlayerWon(Player player, BoardCell lastPlayedCell)
+        {
+            return CheckWinningPossibility(player, lastPlayedCell);
+        }
+
+        private bool CheckWinningPossibility(Player player, BoardCell cellToCheckFrom)
+        {
+            if (!IsValidCell(cellToCheckFrom))
+            {
+                return false;
+            }
+
+            return CheckHorizontally(player, cellToCheckFrom)
+                   || CheckVertically(player, cellToCheckFrom)
+                   || CheckPositiveDiagonal(player, cellToCheckFrom)
+                   || CheckNegativeDiagonal(player, cellToCheckFrom);
         }
 
         private bool CheckHorizontally(Player player, BoardCell currentCell)
@@ -143,7 +158,7 @@ namespace ConnectFourLogic.Board
         private bool CanConnectFour(Player player, BoardCell currentCell, BoardCell startCell, Func<BoardCell, BoardCell> getNextCellFunc)
         {
             BoardCell cellToCheck = startCell;
-            var cellToBePlayedNext = isAlreadyPlayed(currentCell) ? null : currentCell;
+            var cellToBePlayedNext = IsAlreadyPlayed(currentCell) ? null : currentCell;
 
             int count = 0;
 
@@ -154,7 +169,7 @@ namespace ConnectFourLogic.Board
                     return false;
                 }
 
-                if (!cellToCheck.Equals(cellToBePlayedNext) && 
+                if (!cellToCheck.Equals(cellToBePlayedNext) &&
                     GetDiscColorAtCell(cellToCheck.Column, cellToCheck.Row) != player.Color)
                 {
                     return false;
@@ -167,7 +182,7 @@ namespace ConnectFourLogic.Board
             return count == _totalDiscsInRowToWin;
         }
 
-        private bool isAlreadyPlayed(BoardCell cell)
+        private bool IsAlreadyPlayed(BoardCell cell)
         {
             return IsValidCell(cell) && _cells[cell.Column, cell.Row] != null;
         }
@@ -194,16 +209,6 @@ namespace ConnectFourLogic.Board
             }
 
             return InvalidRowColumn;
-        }
-
-        bool IGameBoard.IsValidCell(int column, int row)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool HasPlayerWon(Player player, BoardCell lastPlayedCell)
-        {
-            throw new NotImplementedException();
         }
     }
 }
