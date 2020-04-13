@@ -10,6 +10,10 @@ namespace ConnectFourLogic
     {
         public Player CurrentPlayer { get; private set; }
 
+        public bool IsOver { get; private set; }
+
+        public Player Winner { get; private set; }
+
         public Player PlayerOne { get; }
         public Player PlayerTwo { get; }
 
@@ -34,7 +38,16 @@ namespace ConnectFourLogic
 
         public void DropDisc(int column)
         {
+            if (IsOver)
+            {
+                return;
+            }
+
             int droppedRow = _board.DropDisc(column, CurrentPlayer);
+            if (droppedRow == GameBoard.InvalidRowColumn)
+            {
+                return;
+            }
 
             // TODO: check if the current player has won
             SwitchPlayer();
