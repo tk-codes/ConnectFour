@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using ConnectFourLogic.Board;
 
@@ -36,7 +37,6 @@ namespace ConnectFourLogic.Strategies
                 return (column, row);
             }
 
-            // TODO: Check if column is already full
             column = GetRandomColumn();
             if (column >= 0)
             {
@@ -49,8 +49,14 @@ namespace ConnectFourLogic.Strategies
 
         private int GetRandomColumn()
         {
+            var availableColumns = _board.ColumnIndices()
+                .Where(column => !_board.IsColumnFull(column))
+                .ToList();
+
             var random = new Random();
-            return random.Next(0, 7);
+            var index = random.Next(0, availableColumns.Count);
+
+            return availableColumns[index];
         }
     }
 }
