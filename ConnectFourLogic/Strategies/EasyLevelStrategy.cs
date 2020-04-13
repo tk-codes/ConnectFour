@@ -38,7 +38,6 @@ namespace ConnectFourLogic.Strategies
             }
 
             column = _board.GetColumnToWin(opponentPlayer);
-            // TODO: Refactor repeating if-block code
             if (column >= 0)
             {
                 var row = _board.DropDisc(column, currentPlayer);
@@ -46,13 +45,8 @@ namespace ConnectFourLogic.Strategies
             }
 
             column = GetRandomColumn();
-            if (column >= 0)
-            {
-                var row = _board.DropDisc(column, currentPlayer);
-                return (column, row);
-            }
-
-            return (column, GameBoard.InvalidRowColumn);
+            var droppedRow = _board.DropDisc(column, currentPlayer);
+            return (column, droppedRow);
         }
 
         private int GetRandomColumn()
