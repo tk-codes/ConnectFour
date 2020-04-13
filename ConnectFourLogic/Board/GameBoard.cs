@@ -50,7 +50,8 @@ namespace ConnectFourLogic.Board
 
             return CheckHorizontally(player, currentCell)
                 || CheckVertically(player, currentCell)
-                || CheckPositiveDiagonal(player, currentCell);
+                || CheckPositiveDiagonal(player, currentCell)
+                || CheckNegativeDiagonal(player, currentCell);
         }
 
         private bool CheckHorizontally(Player player, BoardCell currentCell)
@@ -82,6 +83,22 @@ namespace ConnectFourLogic.Board
             {
                 var startCell = new BoardCell(currentCell.Column - startDistance, currentCell.Row + startDistance);
                 var canConnect = CanConnectFour(player, currentCell, startCell, BoardNavigationHelper.GetNextCellOnRightCornerAbove);
+
+                if (canConnect)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private bool CheckNegativeDiagonal(Player player, BoardCell currentCell)
+        {
+            for (int startDistance = 3; startDistance >= 0; startDistance--)
+            {
+                var startCell = new BoardCell(currentCell.Column - startDistance, currentCell.Row - startDistance);
+                var canConnect = CanConnectFour(player, currentCell, startCell, BoardNavigationHelper.GetNextCellOnRightCornerBelow);
 
                 if (canConnect)
                 {

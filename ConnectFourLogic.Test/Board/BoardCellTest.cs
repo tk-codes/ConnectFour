@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using ConnectFourLogic.Board;
+﻿using ConnectFourLogic.Board;
 using FluentAssertions;
 using Xunit;
 
-namespace ConnectFourLogic.Test
+namespace ConnectFourLogic.Test.Board
 {
     public class BoardCellTest
     {
