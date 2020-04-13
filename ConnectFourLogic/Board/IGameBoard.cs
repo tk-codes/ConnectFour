@@ -12,6 +12,8 @@
 
         string GetDiscColorAtCell(int column, int row);
 
+        int GetColumnToWin(Player player);
+
         bool CanPlayerWin(Player player, int column);
     }
 }
