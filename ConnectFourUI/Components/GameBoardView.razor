@@ -24,10 +24,10 @@
         <div>
             <table class="table table-bordered" id="my-table" @onmouseout="() => highlightedColumn = -1">
                 <tbody>
-                    @for (int row = 0; row < Game.GetBoard().GetRowLength(); row++)
+                    @foreach (int row in Game.GetBoard().RowIndices())
                     {
                         <tr>
-                            @for (int column = 0; column < Game.GetBoard().GetColumnLength(); column++)
+                            @foreach (int column in Game.GetBoard().ColumnIndices())
                             {
                                 var currentColumn = column;
                                 <BoardCellView color="@Game.GetBoard().GetDiscColorAtCell(column, row)"

@@ -30,6 +30,14 @@ namespace ConnectFourLogic.Board
             }
         }
 
+        public IEnumerable<int> RowIndices()
+        {
+            for (int r = 0; r < GetRowLength(); r++)
+            {
+                yield return r;
+            }
+        }
+
         public string GetDiscColorAtCell(int column, int row)
         {
             var player = _cells[column, row];
