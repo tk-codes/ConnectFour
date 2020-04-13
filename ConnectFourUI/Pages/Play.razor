@@ -15,7 +15,18 @@
 }
 else
 {
-    <span>Current Player: @_game.CurrentPlayer.Name</span>
+    <span>Current Player: <strong>@_game.CurrentPlayer.Name</strong></span>
+
+    @if (_game.IsOver)
+    {
+        @if (_game.Winner == null)
+        {
+            <h2>Game is draw</h2>
+        } else
+        {
+            <h2>Winner is @_game.Winner.Name</h2>
+        }
+    }
 
     <GameBoardView Game="@_game"></GameBoardView>
 }
@@ -50,7 +61,7 @@ else
     {
         string color = ColorHelper.GetRandomColor();
 
-        while(color == mainPlayerColor)
+        while (color == mainPlayerColor)
         {
             color = ColorHelper.GetRandomColor();
         }
