@@ -9,7 +9,7 @@ namespace ConnectFourLogic.Helpers
         public static string GetRandomColor()
         {
             var random = new Random();
-            return String.Format("#{0:X6}", random.Next(0x1000000));
+            return $"#{random.Next(0x1000000):X6}";
         }
     }
 }

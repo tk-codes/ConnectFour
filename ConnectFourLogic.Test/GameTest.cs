@@ -1,5 +1,6 @@
 using FluentAssertions;
 using System;
+using ConnectFourLogic.Strategies;
 using Xunit;
 
 namespace ConnectFourLogic.Test
