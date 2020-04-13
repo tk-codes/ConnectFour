@@ -2,6 +2,25 @@
 
 <div class="container">
     <div class="row">
+        Current Player: <strong>@Game.GetCurrentPlayer().Name</strong>
+    </div>
+    @if (Game.IsOver())
+    {
+        <div class="row">
+            @if (Game.GetWinner() == null)
+            {
+                <h2>Game is draw</h2>
+            }
+            else
+            {
+                <h2>Winner is @Game.GetWinner().Name</h2>
+            }
+        </div>
+    }
+</div>
+
+<div class="container">
+    <div class="row">
         <div>
             <table class="table table-bordered" id="my-table" @onmouseout="() => highlightedColumn = -1">
                 <tbody>
@@ -14,7 +33,7 @@
                                 <BoardCellView color="@Game.GetBoard().GetDiscColorAtCell(column, row)"
                                                OnClickCallback="() => HandleClick(currentColumn)"
                                                OnMouseOverCallback="() => HandleMouseOver(currentColumn)"
-                                               IsHighlighted="@(highlightedColumn == currentColumn)"/>
+                                               IsHighlighted="@(highlightedColumn == currentColumn)" />
                             }
                         </tr>
                     }

@@ -8,14 +8,14 @@ namespace ConnectFourLogic
 {
     public class Game : IGame
     {
-        public Player CurrentPlayer { get; private set; }
+        private bool _isOver;
 
-        public bool IsOver { get; private set; }
+        private Player _currentPlayer;
 
-        public Player Winner { get; private set; }
+        private readonly Player _playerOne;
+        private readonly Player _playerTwo;
 
-        public Player PlayerOne { get; }
-        public Player PlayerTwo { get; }
+        private Player _winner;
 
         private readonly IGameStrategy _strategy;
 
@@ -23,9 +23,9 @@ namespace ConnectFourLogic
 
         public Game(Player playerOne, Player playerTwo, GameStrategyLevel level)
         {
-            PlayerOne = playerOne;
-            PlayerTwo = playerTwo;
-            CurrentPlayer = PlayerOne;
+            _playerOne = playerOne;
+            _playerTwo = playerTwo;
+            _currentPlayer = _playerOne;
 
             _board = new GameBoard();
             _strategy = GameStrategyFactory.Create(level, _board);
@@ -36,21 +36,35 @@ namespace ConnectFourLogic
             return _board;
         }
 
+        public bool IsOver()
+        {
+            return _isOver;
+        }
+        public Player GetCurrentPlayer()
+        {
+            return _currentPlayer;
+        }
+
+        public Player GetWinner()
+        {
+            return _winner;
+        }
+
         public void DropDisc(int column)
         {
-            if (IsOver)
+            if (_isOver)
             {
                 return;
             }
 
-            int droppedRow = _board.DropDisc(column, CurrentPlayer);
+            int droppedRow = _board.DropDisc(column, _currentPlayer);
             if (droppedRow == GameBoard.InvalidRowColumn)
             {
                 return;
             }
 
             CheckGameStatus(column, droppedRow);
-            if (IsOver)
+            if (_isOver)
             {
                 return;
             }
@@ -59,7 +73,7 @@ namespace ConnectFourLogic
 
             if (_strategy.GetLevel() != GameStrategyLevel.MultiPlayer)
             {
-                (int playedColumn, int playedRow) = _strategy.Play(CurrentPlayer, GetOpponent());
+                (int playedColumn, int playedRow) = _strategy.Play(_currentPlayer, GetOpponent());
                 CheckGameStatus(playedColumn, playedRow);
 
                 SwitchPlayer();
@@ -68,28 +82,28 @@ namespace ConnectFourLogic
 
         private void SwitchPlayer()
         {
-            CurrentPlayer = CurrentPlayer == PlayerTwo ? PlayerOne : PlayerTwo;
+            _currentPlayer = _currentPlayer == _playerTwo ? _playerOne : _playerTwo;
         }
 
         private Player GetOpponent()
         {
-            return CurrentPlayer == PlayerTwo ? PlayerOne : PlayerTwo;
+            return _currentPlayer == _playerTwo ? _playerOne : _playerTwo;
         }
 
         private void CheckGameStatus(int column, int row)
         {
-            var hasWon = _board.HasPlayerWon(CurrentPlayer, new BoardCell(column, row));
+            var hasWon = _board.HasPlayerWon(_currentPlayer, new BoardCell(column, row));
 
             if (hasWon)
             {
-                IsOver = true;
-                Winner = CurrentPlayer;
+                _isOver = true;
+                _winner = _currentPlayer;
                 return;
             }
 
             if (_board.IsFull())
             {
-                IsOver = true;
+                _isOver = true;
             }
         }
     }
