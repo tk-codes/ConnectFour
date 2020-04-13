@@ -38,6 +38,7 @@ namespace ConnectFourLogic.Test.Board
             {
                 FillInColumn(column, _board.GetRowLength(), _playerOne);
             }
+
             _board.IsFull().Should().BeTrue();
         }
 
@@ -276,6 +277,32 @@ namespace ConnectFourLogic.Test.Board
             {
                 _board.DropDisc(column, player);
             }
+        }
+
+        [Fact]
+        public void ShouldHaveWon()
+        {
+            _board.DropDisc(0, _playerOne);
+            _board.DropDisc(1, _playerOne);
+            _board.DropDisc(2, _playerOne);
+            var droppedRow = _board.DropDisc(3, _playerOne);
+
+            var result = _board.HasPlayerWon(_playerOne, new BoardCell(3, droppedRow));
+
+            result.Should().BeTrue();
+        }
+
+        [Fact]
+        public void ShouldHaveNotWon()
+        {
+            _board.DropDisc(0, _playerOne);
+            _board.DropDisc(1, _playerOne);
+            _board.DropDisc(2, _playerOne);
+            var droppedRow = _board.DropDisc(3, _playerOne);
+
+            var result = _board.HasPlayerWon(_playerTwo, new BoardCell(3, droppedRow));
+
+            result.Should().BeFalse();
         }
     }
 }

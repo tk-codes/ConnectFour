@@ -90,7 +90,6 @@ namespace ConnectFourLogic
             if (_board.IsFull())
             {
                 IsOver = true;
-                return;
             }
         }
     }
