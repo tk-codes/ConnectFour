@@ -11,7 +11,12 @@ namespace ConnectFourLogic.Strategies
 
         public EasyLevelStrategy(IGameBoard board)
         {
-            this._board = board;
+            _board = board;
+        }
+
+        public GameStrategyLevel GetLevel()
+        {
+            return GameStrategyLevel.Easy;
         }
 
         public (int, int) Play(Player currentPlayer, Player opponentPlayer)
