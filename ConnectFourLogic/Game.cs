@@ -24,7 +24,7 @@ namespace ConnectFourLogic
             CurrentPlayer = PlayerOne;
 
             board = new GameBoard();
-            strategy = GameStrategyFactory.Create(level);
+            strategy = GameStrategyFactory.Create(level, board);
         }
 
         public IGameBoard GetBoard()
@@ -39,13 +39,19 @@ namespace ConnectFourLogic
             // TODO: check if the current player has won
             SwitchPlayer();
             
-            (int playedColumn, int playedRow) = strategy.Play(CurrentPlayer);
+            (int playedColumn, int playedRow) = strategy.Play(CurrentPlayer, GetOpponent());
             // TODO: check if the switched player has won
+            SwitchPlayer();
         }
 
         private void SwitchPlayer()
         {
             CurrentPlayer = CurrentPlayer == PlayerTwo ? PlayerOne : PlayerTwo;
+        }
+
+        private Player GetOpponent()
+        {
+            return CurrentPlayer == PlayerTwo ? PlayerOne : PlayerTwo;
         }
     }
 }

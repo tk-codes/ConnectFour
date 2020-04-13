@@ -7,12 +7,45 @@ namespace ConnectFourLogic.Strategies
 {
     class EasyLevelStrategy : IGameStrategy
     {
-        public (int, int) Play(Player currentPlayer)
+        private readonly IGameBoard _board;
+
+        public EasyLevelStrategy(IGameBoard board)
         {
-            // can I win --> drop disc to win
-            // can the opponent win --> drop disc to block
-            // drop disc at random column
-            return (GameBoard.InvalidRowColumn, GameBoard.InvalidRowColumn);
+            this._board = board;
+        }
+
+        public (int, int) Play(Player currentPlayer, Player opponentPlayer)
+        {
+            var column = _board.GetColumnToWin(currentPlayer);
+            if (column >= 0)
+            {
+                var row = _board.DropDisc(column, currentPlayer);
+                return (column, row);
+            }
+
+            column = _board.GetColumnToWin(opponentPlayer);
+            // TODO: Refactor repeating if-block code
+            if (column >= 0)
+            {
+                var row = _board.DropDisc(column, currentPlayer);
+                return (column, row);
+            }
+
+            // TODO: Check if column is already full
+            column = GetRandomColumn();
+            if (column >= 0)
+            {
+                var row = _board.DropDisc(column, currentPlayer);
+                return (column, row);
+            }
+
+            return (column, GameBoard.InvalidRowColumn);
+        }
+
+        private int GetRandomColumn()
+        {
+            var random = new Random();
+            return random.Next(0, 7);
         }
     }
 }

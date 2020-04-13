@@ -43,6 +43,19 @@ namespace ConnectFourLogic.Board
             return nextRow;
         }
 
+        public int GetColumnToWin(Player player)
+        {
+            for (var column = 0; column < GetColumnLength(); column++)
+            {
+                if (CanPlayerWin(player, column))
+                {
+                    return column;
+                }
+            }
+
+            return InvalidRowColumn;
+        }
+
         public bool CanPlayerWin(Player player, int column)
         {
             int nextRow = GetNextAvailableRow(column);
@@ -56,7 +69,7 @@ namespace ConnectFourLogic.Board
 
         private bool CheckHorizontally(Player player, BoardCell currentCell)
         {
-            for (int startColumn = currentCell.Column - 3; startColumn <= currentCell.Column; startColumn++)
+            for (var startColumn = currentCell.Column - 3; startColumn <= currentCell.Column; startColumn++)
             {
                 var startCell = new BoardCell(startColumn, currentCell.Row);
                 var canConnect = CanConnectFour(player, currentCell, startCell, BoardNavigationHelper.GetNextCellOnRight);

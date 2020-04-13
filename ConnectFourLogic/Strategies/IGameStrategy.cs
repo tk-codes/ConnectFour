@@ -6,6 +6,6 @@ namespace ConnectFourLogic.Strategies
 {
     public interface IGameStrategy
     {
-        (int, int) Play(Player currentPlayer);
+        (int, int) Play(Player currentPlayer, Player opponentPlayer);
     }
 }
