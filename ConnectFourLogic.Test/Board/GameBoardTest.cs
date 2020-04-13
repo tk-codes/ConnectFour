@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using ConnectFourLogic.Board;
 using FluentAssertions;
 using Xunit;
@@ -31,9 +32,33 @@ namespace ConnectFourLogic.Test.Board
         }
 
         [Fact]
+        public void ShouldBeFull()
+        {
+            foreach(int column in _board.ColumnIndices())
+            {
+                FillInColumn(column, _board.GetRowLength(), _playerOne);
+            }
+            _board.IsFull().Should().BeTrue();
+        }
+
+        [Fact]
         public void ShouldNotBeFull()
         {
-            _board.IsFull(2).Should().BeFalse();
+            _board.IsFull().Should().BeFalse();
+        }
+
+        [Fact]
+        public void ShouldBeFullColumn()
+        {
+            FillInColumn(2, _board.GetRowLength(), _playerOne);
+
+            _board.IsColumnFull(2).Should().BeTrue();
+        }
+
+        [Fact]
+        public void ShouldNotBeFullColumn()
+        {
+            _board.IsColumnFull(2).Should().BeFalse();
         }
 
         [Fact]
@@ -65,7 +90,7 @@ namespace ConnectFourLogic.Test.Board
 
             _board.DropDisc(2, _playerTwo);
 
-            _board.IsFull(2).Should().BeTrue();
+            _board.IsColumnFull(2).Should().BeTrue();
             _board.GetDiscColorAtCell(2, 0).Should().Be(_playerOne.Color);
         }
 

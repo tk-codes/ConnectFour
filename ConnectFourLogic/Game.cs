@@ -49,12 +49,21 @@ namespace ConnectFourLogic
                 return;
             }
 
-            // TODO: check if the current player has won
+            CheckGameStatus(column, droppedRow);
+            if (IsOver)
+            {
+                return;
+            }
+
             SwitchPlayer();
-            
-            (int playedColumn, int playedRow) = _strategy.Play(CurrentPlayer, GetOpponent());
-            // TODO: check if the switched player has won
-            SwitchPlayer();
+
+            if (_strategy.GetLevel() != GameStrategyLevel.MultiPlayer)
+            {
+                (int playedColumn, int playedRow) = _strategy.Play(CurrentPlayer, GetOpponent());
+                CheckGameStatus(playedColumn, playedRow);
+
+                SwitchPlayer();
+            }
         }
 
         private void SwitchPlayer()
@@ -65,6 +74,24 @@ namespace ConnectFourLogic
         private Player GetOpponent()
         {
             return CurrentPlayer == PlayerTwo ? PlayerOne : PlayerTwo;
+        }
+
+        private void CheckGameStatus(int column, int row)
+        {
+            var hasWon = _board.HasPlayerWon(CurrentPlayer, new BoardCell(column, row));
+
+            if (hasWon)
+            {
+                IsOver = true;
+                Winner = CurrentPlayer;
+                return;
+            }
+
+            if (_board.IsFull())
+            {
+                IsOver = true;
+                return;
+            }
         }
     }
 }

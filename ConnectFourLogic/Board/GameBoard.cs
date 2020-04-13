@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ConnectFourLogic.Board
 {
@@ -19,13 +22,28 @@ namespace ConnectFourLogic.Board
             return _cells.GetLength(1);
         }
 
+        public IEnumerable<int> ColumnIndices()
+        {
+            for (int c = 0; c < GetColumnLength(); c++)
+            {
+                yield return c;
+            }
+        }
+
         public string GetDiscColorAtCell(int column, int row)
         {
             var player = _cells[column, row];
             return player?.Color;
         }
 
-        public bool IsFull(int column)
+        public bool IsFull()
+        {
+            return Enumerable.Range(0, GetColumnLength())
+                .Select(column => _cells[column, 0] != null)
+                .All(hasPlayer => hasPlayer);
+        }
+
+        public bool IsColumnFull(int column)
         {
             int nextRow = GetNextAvailableRow(column);
             return nextRow == InvalidRowColumn;
@@ -176,6 +194,16 @@ namespace ConnectFourLogic.Board
             }
 
             return InvalidRowColumn;
+        }
+
+        bool IGameBoard.IsValidCell(int column, int row)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool HasPlayerWon(Player player, BoardCell lastPlayedCell)
+        {
+            throw new NotImplementedException();
         }
     }
 }
