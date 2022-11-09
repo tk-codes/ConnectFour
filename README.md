@@ -1,4 +1,4 @@
-# ConnectFour in [ASP.NET Core Blazor Server](https://dotnet.microsoft.com/apps/aspnet/web-apps/blazor)
+# ConnectFour with [Blazor Server & WebAssembly](https://dotnet.microsoft.com/en-us/apps/aspnet/web-apps/blazor)
 ![status in progress](https://img.shields.io/badge/status-in%20progress-brightgreen.svg)
 
 Connect Four _(also known as Four in a Row, Four in a Line, Drop Four)_ is a two-player connection board game
@@ -9,10 +9,14 @@ from the top into a seven-column, six-row vertically suspended grid. [Read more]
 
 ## Development
 
-Run `dotnet watch run debug` to start the app in watch mode.
+The repository consists of 4 projects:
+* ConnectFourLogic: The c# class library contains the core game logic.
+* ConnectFourUiLib: Razor component library contains pure UI components
+* ConnectFourServer: [Blazor Server](https://learn.microsoft.com/en-us/aspnet/core/blazor/hosting-models?view=aspnetcore-7.0#blazor-server) project 
+* ConnectFourWebAssembly: [Blazor WebAssembly](https://learn.microsoft.com/en-us/aspnet/core/blazor/hosting-models?view=aspnetcore-7.0#blazor-webassembly) project
 
 ## Status
 
-The ConnectFour is an experimental project with Blazor server technology. It is under development.
+The ConnectFour is an experimental project with Blazor technology.
 
 Currently, ConnectFour supports only `Easy`-Level game strategy against computer. It could be extended with multi-player and medium/hard level strategies.
