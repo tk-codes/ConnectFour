@@ -19,29 +19,35 @@
     }
 </div>
 
-<div class="container">
+<div class="container mt-3">
     <div class="row">
-        <div>
+        <div class="game-board-container">
             <table class="table table-bordered" id="my-table" @onmouseout="() => highlightedColumn = -1">
                 <tbody>
-                    @foreach (int row in Game.GetBoard().RowIndices())
-                    {
-                        <tr>
-                            @foreach (int column in Game.GetBoard().ColumnIndices())
-                            {
-                                var currentColumn = column;
-                                <BoardCellView color="@Game.GetBoard().GetDiscColorAtCell(column, row)"
-                                               OnClickCallback="() => HandleClick(currentColumn)"
-                                               OnMouseOverCallback="() => HandleMouseOver(currentColumn)"
-                                               IsHighlighted="@(highlightedColumn == currentColumn)" />
-                            }
-                        </tr>
-                    }
+                @foreach (int row in Game.GetBoard().RowIndices())
+                {
+                    <tr>
+                        @foreach (int column in Game.GetBoard().ColumnIndices())
+                        {
+                            var currentColumn = column;
+                            <BoardCellView color="@Game.GetBoard().GetDiscColorAtCell(column, row)"
+                                           OnClickCallback="() => HandleClick(currentColumn)"
+                                           OnMouseOverCallback="() => HandleMouseOver(currentColumn)"
+                                           IsHighlighted="@(highlightedColumn == currentColumn)" />
+                        }
+                    </tr>
+                }
                 </tbody>
             </table>
         </div>
     </div>
 </div>
+
+<style>
+    .game-board-container {
+        width: 700px;
+    }
+</style>
 
 @code {
     [Parameter]
