@@ -1,9 +1,10 @@
-﻿@inject NavigationManager navManager;
+﻿@page "/play"
+
+@inject NavigationManager navManager;
 @using Microsoft.AspNetCore.WebUtilities;
 @using ConnectFourLogic;
 @using ConnectFourLogic.Helpers;
-@using ConnectFourLogic.Strategies
-@using ConnectFourUI.Components;
+@using ConnectFourLogic.Strategies;
 
 <h3 id="play">Play</h3>
 
@@ -21,8 +22,8 @@ else
 
     protected override void OnInitialized()
     {
-        // Currently, only easy level is supported for playing against computer.
-        // To support more levels, extend the form and logic.
+    // Currently, only easy level is supported for playing against computer.
+    // To support more levels, extend the form and logic.
         var level = GameStrategyLevel.Easy;
 
         var playerOne = CreateMainPlayerFromUri();
