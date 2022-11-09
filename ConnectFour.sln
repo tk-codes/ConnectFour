@@ -1,10 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29926.136
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33103.184
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConnectFourUI", "ConnectFourUI\ConnectFourUI.csproj", "{8B4EB022-F20F-43BC-8063-60F288CAFE3F}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DF9684F4-C516-4BAE-BFDD-D81D38BEFED7}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
@@ -14,7 +12,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConnectFourLogic", "ConnectFourLogic\ConnectFourLogic.csproj", "{C7AD6BE7-E370-487C-A2E7-28B400A7A026}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConnectFourLogic.Test", "ConnectFourLogic.Test\ConnectFourLogic.Test.csproj", "{8A417141-22F4-4522-BCF0-B162EA35BF42}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConnectFourLogic.Test", "ConnectFourLogic.Test\ConnectFourLogic.Test.csproj", "{8A417141-22F4-4522-BCF0-B162EA35BF42}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConnectFourWebAssembly", "ConnectFourWebAssembly\ConnectFourWebAssembly.csproj", "{87027415-EA90-4F96-B4CA-0EC744040052}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConnectFourServer", "ConnectFourServer\ConnectFourServer.csproj", "{35AB2E4F-3CC5-4C7A-92AC-371E3A3EB90A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConnectFourUiLib", "ConnectFourUiLib\ConnectFourUiLib.csproj", "{452877F9-D52B-4403-9D2E-0A40FEE31639}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -22,10 +26,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{8B4EB022-F20F-43BC-8063-60F288CAFE3F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8B4EB022-F20F-43BC-8063-60F288CAFE3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8B4EB022-F20F-43BC-8063-60F288CAFE3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8B4EB022-F20F-43BC-8063-60F288CAFE3F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C7AD6BE7-E370-487C-A2E7-28B400A7A026}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C7AD6BE7-E370-487C-A2E7-28B400A7A026}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C7AD6BE7-E370-487C-A2E7-28B400A7A026}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -34,6 +34,18 @@ Global
 		{8A417141-22F4-4522-BCF0-B162EA35BF42}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8A417141-22F4-4522-BCF0-B162EA35BF42}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8A417141-22F4-4522-BCF0-B162EA35BF42}.Release|Any CPU.Build.0 = Release|Any CPU
+		{87027415-EA90-4F96-B4CA-0EC744040052}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87027415-EA90-4F96-B4CA-0EC744040052}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87027415-EA90-4F96-B4CA-0EC744040052}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87027415-EA90-4F96-B4CA-0EC744040052}.Release|Any CPU.Build.0 = Release|Any CPU
+		{35AB2E4F-3CC5-4C7A-92AC-371E3A3EB90A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{35AB2E4F-3CC5-4C7A-92AC-371E3A3EB90A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{35AB2E4F-3CC5-4C7A-92AC-371E3A3EB90A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{35AB2E4F-3CC5-4C7A-92AC-371E3A3EB90A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{452877F9-D52B-4403-9D2E-0A40FEE31639}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{452877F9-D52B-4403-9D2E-0A40FEE31639}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{452877F9-D52B-4403-9D2E-0A40FEE31639}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{452877F9-D52B-4403-9D2E-0A40FEE31639}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

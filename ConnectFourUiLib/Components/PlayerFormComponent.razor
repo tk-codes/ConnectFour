@@ -1,0 +1,60 @@
+﻿@using ConnectFourLogic.Helpers
+@using ConnectFourUiLib.ViewModels
+@using Microsoft.AspNetCore.WebUtilities
+
+@inject NavigationManager NavManager;
+
+<EditForm Model="@_player" OnValidSubmit="@HandleNewGame">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="row g-2">
+        <div class="col-1">
+            <label for="name" class="col-form-label">Name: </label>
+        </div>
+        <div class="col-4">
+            <InputText id="name" class="form-control" @bind-Value="_player.Name"/>
+        </div>
+    </div>
+
+    <div class="row g-2">
+        <div class="col-1">
+            <label for="color" class="col-form-label">Color: </label>
+        </div>
+        <div class="col-4">
+            <InputText id="color" class="form-control" readonly disabled
+                       @bind-Value="_player.Color" style="@_colorInputStyle"/>
+        </div>
+    </div>
+    
+    <div class="row mt-3">
+        <button type="button" class="col-3 btn btn-secondary" @onclick="HandleGenerateColor">Random color</button>
+        <button type="submit" class="col-2 btn btn-primary">New Game</button>
+    </div>
+</EditForm>
+
+@code {
+    private PlayerForm _player = new();
+
+    private string _colorInputStyle = "";
+
+    protected override void OnInitialized()
+    {
+        HandleGenerateColor();
+    }
+
+    private void HandleGenerateColor()
+    {
+        _player.Color = ColorHelper.GetRandomColor();
+        Console.WriteLine("color" + _player.Color);
+        _colorInputStyle = $"background: {_player.Color}";
+    }
+
+    private void HandleNewGame()
+    {
+        var query = new Dictionary<string, string> {
+            { "name", this._player.Name }, { "color", this._player.Color } };
+
+        NavManager.NavigateTo(QueryHelpers.AddQueryString("play", query));
+    }
+}
